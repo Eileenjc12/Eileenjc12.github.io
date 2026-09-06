@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCopyEmail();
   initContactForm();
   initBackToTop();
+  initGitHubData();
 
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
@@ -116,7 +117,7 @@ function initActiveNavOnScroll() {
 function initCopyEmail() {
   const copyBtn = document.getElementById('copy-email-btn');
   const toast = document.getElementById('toast');
-  const emailAddress = 'contact.eileen.qa@gmail.com';
+  const emailAddress = 'ejcmatosza82@gmail.com';
 
   if (!copyBtn) return;
 
@@ -231,4 +232,35 @@ function initBackToTop() {
       behavior: 'smooth'
     });
   });
+}
+
+/**
+ * 6. Sincronización y fallback de datos de GitHub (Avatar y Métricas)
+ */
+function initGitHubData() {
+  const avatarImg = document.getElementById('github-avatar');
+  if (avatarImg) {
+    // Si la imagen local falla, cargar dinámicamente de GitHub
+    avatarImg.addEventListener('error', () => {
+      if (!avatarImg.src.includes('github.com')) {
+        avatarImg.src = 'https://avatars.githubusercontent.com/u/134948690?v=4';
+      }
+    });
+  }
+
+  // Sincronización no bloqueante con la API pública de GitHub para estrellas o actualizaciones
+  fetch('https://api.github.com/users/Eileenjc12/repos?sort=updated&per_page=15')
+    .then(res => res.ok ? res.json() : [])
+    .then(repos => {
+      if (!Array.isArray(repos) || repos.length === 0) return;
+      repos.forEach(repo => {
+        const starEl = document.querySelector(`[data-repo-stars="${repo.name}"]`);
+        if (starEl && repo.stargazers_count !== undefined) {
+          starEl.textContent = `★ ${repo.stargazers_count}`;
+        }
+      });
+    })
+    .catch(() => {
+      // Fallback estático 100% garantizado
+    });
 }

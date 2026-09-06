@@ -1,0 +1,28 @@
+# Entornos virtuales de Python (Aislamiento de dependencias y memoria)
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Archivos compilados y temporales de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Archivos de configuración de editores y sistemas operativos
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs y volcados de depuración
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
